@@ -1,93 +1,104 @@
+<!-- 
+  Fareen Alam - Header Comment
+  profile.html represents the "Profile" page of the app, where users can see all their own posts and create a new post.
+-->
+
 {% extends "layout.html" %}
 
 {% block body %}
 
 <div>
-  <!-- <img src={{ image_url }} alt="Avatar" class="profile-image"></img> -->
+  <!-- Profile Image Section -->
+  <!-- When the button is clicked, it triggers a modal to change the profile picture -->
+  <button type="button" class="btn btn-primary icon-button" style="background-image: url('{{ image_url }}');"
+    data-bs-toggle="modal" data-bs-target="#changeProfilePictureModal">
+  </button>
 
-  <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary icon-button"  style="background-image: url('{{ image_url }}');"  data-bs-toggle="modal" data-bs-target="#changeProfilePictureModal">
-
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="changeProfilePictureModal" tabindex="-1" aria-labelledby="changeProfilePictureModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header" style="display: flex; justify-content: space-between;">
-        <h1 class="modal-title fs-5" style="color: black;" id="changeProfilePictureModal">Change Profile Picture</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="create-post">
-          <form action="/changeProfilePicture" method="POST">
-            <div class="mb-3">
-              <!-- <label for="post-imageUrl" class="form-label">Image Link</label> -->
-              <input type="text" class="form-control" id="post-imageUrl" name="post-imageUrl" placeholder="Image Link" aria-describedby="Description">
-              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <button type="submit" class="btn btn-primary">Upload Image</button>
-          </form>
+  <!-- Modal for Changing Profile Picture -->
+  <div class="modal fade" id="changeProfilePictureModal" tabindex="-1" aria-labelledby="changeProfilePictureModal"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header" style="display: flex; justify-content: space-between;">
+          <h1 class="modal-title fs-5" style="color: black;" id="changeProfilePictureModal">Change Profile Picture</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="create-post">
+            <!-- Form to change the profile picture -->
+            <form action="/changeProfilePicture" method="POST">
+              <div class="mb-3">
+                <!-- Input field for the new image URL -->
+                <input type="text" class="form-control" id="post-imageUrl" name="post-imageUrl" placeholder="Image Link"
+                  aria-describedby="Description">
+              </div>
+              <!-- Submit button to upload the new image -->
+              <button type="submit" class="btn btn-primary">Upload Image</button>
+            </form>
+          </div>
         </div>
       </div>
-      </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Post it!</button>
-      </div> -->
     </div>
   </div>
 
+  <!-- Display the username -->
   <div>@{{ username }}</div>
-  {% if current_logged_in_user[0]["handler"] == username %}
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Post
-</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header" style="display: flex; justify-content: space-between;">
-        <h1 class="modal-title fs-5" style="color: black;" id="exampleModalLabel">Add Post</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="create-post">
-          <form action="/profile" method="POST">
-            <div class="mb-3">
-              <!-- <label for="post-imageUrl" class="form-label">Image Link</label> -->
-              <input type="text" class="form-control" id="post-imageUrl" name="post-imageUrl" placeholder="Image Link" aria-describedby="Description">
-              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <div class="mb-3">
-              <!-- <label for="post-imageUrl" class="form-label">Image Link</label> -->
-              <input type="text" class="form-control" id="post-songName" name="post-songName" placeholder="Song Name" aria-describedby="Description">
-              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <div class="mb-3">
-              <!-- <label for="post-imageUrl" class="form-label">Image Link</label> -->
-              <input type="text" class="form-control" id="post-songID" name="post-songLink" placeholder="Spotify Song Link" aria-describedby="Description">
-              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <div class="mb-3">
-              <input type="text" class="form-control" id="post-description" name="post-description" placeholder ="Description" aria-describedby="Description">
-              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <button type="submit" class="btn btn-primary">Post</button>
-          </form>
+  <!-- Conditional Section: If the current logged-in user is viewing their own profile -->
+  {% if current_logged_in_user[0]["handler"] == username %}
+  <!-- Button to trigger the modal for adding a new post -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Post
+  </button>
+
+  <!-- Modal for Adding a New Post -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header" style="display: flex; justify-content: space-between;">
+          <h1 class="modal-title fs-5" style="color: black;" id="exampleModalLabel">Add Post</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <div class="create-post">
+            <!-- Form to create a new post -->
+            <form action="/profile" method="POST">
+              <!-- Input field for the image URL -->
+              <div class="mb-3">
+                <input type="text" class="form-control" id="post-imageUrl" name="post-imageUrl" placeholder="Image Link"
+                  aria-describedby="Description">
+              </div>
+              <!-- Input field for the song name -->
+              <div class="mb-3">
+                <input type="text" class="form-control" id="post-songName" name="post-songName" placeholder="Song Name"
+                  aria-describedby="Description">
+              </div>
+              <!-- Input field for the Spotify song link -->
+              <div class="mb-3">
+                <input type="text" class="form-control" id="post-songID" name="post-songLink"
+                  placeholder="Spotify Song Link" aria-describedby="Description">
+              </div>
+              <!-- Input field for the post description -->
+              <div class="mb-3">
+                <input type="text" class="form-control" id="post-description" name="post-description"
+                  placeholder="Description" aria-describedby="Description">
+              </div>
+              <!-- Submit button to post the content -->
+              <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+          </div>
         </div>
       </div>
-      </div>
-      <!-- <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Post it!</button>
-      </div> -->
     </div>
   </div>
 
+  <!-- Conditional Section: If the current logged-in user is viewing someone else's profile -->
   {% else %}
+  <!-- Form to follow the user -->
   <form action="/follow" method="POST" style="display: inline;">
     <input type="hidden" name="user_id_to_follow" value='{{ user_info["ID"] }}'>
     <button type="submit" class="btn btn-primary">Follow</button>
@@ -95,45 +106,46 @@
   {% endif %}
 </div>
 
+<!-- Posts Section -->
 <div class="post px-5">
   <div>
+    <!-- Loop through each post -->
     {% for post in posts %}
     <div class="row py-2">
-      <!-- Post Section ----------------------------------- -->
+      <!-- Post Section -->
       <div class="col-6 px-0">
         <div class="card">
+          <!-- Post Image and Handler -->
           <div class="post-img-wrapper">
             <p class="card-text">@{{ post.handler }}</p>
             <img src="{{ post.imageUrl }}" class="post-img" alt="Post Image" />
           </div>
 
+          <!-- Post Body with Spotify Embed -->
           <div class="card-body">
-            <iframe
-              class="spotify-frame"
-              src="https://open.spotify.com/embed/track/{{ post.songUrl }}?utm_source=generator"
-              frameborder="0"
+            <iframe class="spotify-frame" src="{{ post.songUrl }}?utm_source=generator" frameborder="0"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-            ></iframe>
-            <!-- <p class="card-text">Song Name: {{ post.songName }}</p> -->
+              loading="lazy"></iframe>
           </div>
+
+          <!-- Post Footer with Timestamp -->
           <div class="card-footer text-muted">{{ post.timeElapse }}</div>
         </div>
       </div>
 
-      <!-- Comment Section -------------------------------- -->
+      <!-- Comment Section -->
       <div class="col-6 px-0">
         <div class="comment-section">
           <!-- Comments Display -->
           <div class="comments">
-            {% if post.postID in comments %} {% for c in comments[post.postID]
-            %}
+            <!-- Check if there are comments for this post -->
+            {% if post.postID in comments %}
+            <!-- Loop through each comment -->
+            {% for c in comments[post.postID] %}
             <div class="comment">
-              <img
-                src="{{ c.avatar }}"
-                alt="User Profile"
-                class="profile-pic"
-              />
+              <!-- Commenter's Avatar -->
+              <img src="{{ c.avatar }}" alt="User Profile" class="profile-pic" />
+              <!-- Comment Content -->
               <div class="comment-content">
                 <div class="comment-header">
                   <span class="username">{{ c.userName }}</span>
@@ -142,7 +154,9 @@
                 <p>{{ c.content }}</p>
               </div>
             </div>
-            {% endfor %} {% else %}
+            {% endfor %}
+            {% else %}
+            <!-- Display message if there are no comments -->
             <p class="no-comments">No comments yet.</p>
             {% endif %}
           </div>
@@ -151,19 +165,13 @@
             <!-- Hidden field to include the post ID -->
             <input type="hidden" name="postID" value="{{ post.postID }}" />
             <div class="comment-input">
-              <img
-                src="/static/avatar.jpeg"
-                alt="User Profile"
-                class="profile-pic"
-              />
-              <textarea
-                placeholder="Write a comment..."
-                name="commentInput"
-                class="comment-box"
-              ></textarea>
+              <!-- Commenter's Avatar -->
+              <img src="/static/avatar.jpeg" alt="User Profile" class="profile-pic" />
+              <!-- Textarea for the comment input -->
+              <textarea placeholder="Write a comment..." name="commentInput" class="comment-box"></textarea>
+              <!-- Submit button for the comment -->
               <button class="post-btn-icon" type="submit">
                 <i class="fa fa-paper-plane"></i>
-                <!-- Paper plane icon -->
               </button>
             </div>
           </form>
@@ -175,9 +183,7 @@
 </div>
 </div>
 
-
-
-<!-- <div>Friends: {{ friends }}</div> -->
 </div>
+
 
 {% endblock %}

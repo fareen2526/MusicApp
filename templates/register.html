@@ -1,4 +1,7 @@
-<!-- {% extends "layout.html" %} -->
+<!-- 
+    Fareen Alam - Header Comment
+    register.html represents the Register page, allowing a user to create their own account.
+-->
 
 {% block title %}
     Log In
@@ -14,12 +17,15 @@
         <div class="mb-3">
             <input class="form-control mx-auto w-auto" id="email" name="email" placeholder="Email" type="email">
         </div>
+        <!-- User's Username -->
         <div class="mb-3">
             <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
         </div>
+        <!-- User's Password -->
         <div class="mb-3">
             <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
         </div>
+        <!-- User must repeat the password -->
         <div class="mb-3">
             <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Password (again)" type="password">
         </div>

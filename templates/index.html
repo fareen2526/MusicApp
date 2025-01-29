@@ -1,31 +1,56 @@
-{% extends "layout.html" %} {% block body %}
+<!-- 
+  Fareen Alam - Header Comment 
+  index.html formats the organization of the homepage/greeting page of the website as well as features like liking and commenting. 
+-->
+
+{% extends "layout.html" %} 
+{% block body %}
+<!-- Main container for the posts -->
 <div class="post px-5">
   <div>
+    <!-- Loop through each post in the 'posts' list -->
     {% for post in posts %}
     <div class="row py-2">
       <!-- Post Section ----------------------------------- -->
       <div class="col-6 px-0">
+        <!-- Card container for each post -->
         <div class="card">
+          <!-- Post image and handler section -->
           <div class="post-img-wrapper">
+            <!-- Display the post handler (username) -->
             <p class="card-text">@{{ post.handler }}</p>
+            <!-- Display the post image -->
             <img src="{{ post.imageUrl }}" class="post-img" alt="Post Image" />
           </div>
 
+          <!-- Post UI Section -->
           <div class="card-body">
+            <!-- Embed a Spotify song using an iframe -->
             <iframe
               class="spotify-frame"
-              src="https://open.spotify.com/embed/track/{{ post.songUrl }}?utm_source=generator"
+              src="{{ post.songUrl }}?utm_source=generator"
               frameborder="0"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"
             ></iframe>
-            <!-- <p class="card-text">Song Name: {{ post.songName }}</p> -->
           </div>
-          <div class="card-footer text-muted">{{ post.timeElapse }}</div>
+
+          <!-- Display the post description -->
+          <div> Description: {{ post.postDescription }}</div>
+          <p></p>
+
+          <!-- Display the time elapsed since the post was created -->
+          <div class="card-footer text-muted">
+            {{ post.timeElapse }}
+          </div>
+
+          <!-- Like button section -->
           <div>
+            <!-- Form to submit a like for the post -->
             <form action="/likes" method="POST">
               <!-- Hidden field to include the post ID -->
               <input type="hidden" name="postID" value="{{ post.postID }}" />
+              <!-- Like button with a thumbs-up icon and the number of likes -->
               <button class="like-btn-icon" type="submit">
                 <i class="fa fa-thumbs-up"></i>
                 {{ post.likes }}
@@ -38,43 +63,55 @@
       <!-- Comment Section -------------------------------- -->
       <div class="col-6 px-0">
         <div class="comment-section">
-          <!-- Comments Display -->
+          <!-- Comments Display Section -->
           <div class="comments">
-            {% if post.postID in comments %} {% for c in comments[post.postID]
-            %}
-            <div class="comment">
-              <img
-                src="{{ c.avatar }}"
-                alt="User Profile"
-                class="profile-pic"
-              />
-              <div class="comment-content">
-                <div class="comment-header">
-                  <span class="username">{{ c.userName }}</span>
-                  <span class="timestamp">{{ c.timeElapse }}</span>
+            <!-- Check if there are comments for this post -->
+            {% if post.postID in comments %} 
+              <!-- Loop through each comment for the post -->
+              {% for c in comments[post.postID] %}
+              <div class="comment">
+                <!-- Display the commenter's profile picture -->
+                <img
+                  src="{{ c.avatar }}"
+                  alt="User Profile"
+                  class="profile-pic"
+                />
+                <!-- Comment content section -->
+                <div class="comment-content">
+                  <!-- Comment header with username and timestamp -->
+                  <div class="comment-header">
+                    <span class="username">{{ c.userName }}</span>
+                    <span class="timestamp">{{ c.timeElapse }}</span>
+                  </div>
+                  <!-- Display the comment text -->
+                  <p>{{ c.content }}</p>
                 </div>
-                <p>{{ c.content }}</p>
               </div>
-            </div>
-            {% endfor %} {% else %}
-            <p class="no-comments">No comments yet.</p>
+              {% endfor %} 
+            {% else %}
+              <!-- Display a message if there are no comments -->
+              <p class="no-comments">No comments yet.</p>
             {% endif %}
           </div>
-          <!-- Comment Form -->
+
+          <!-- Comment Form Section -->
           <form action="/" method="POST">
             <!-- Hidden field to include the post ID -->
             <input type="hidden" name="postID" value="{{ post.postID }}" />
             <div class="comment-input">
+              <!-- Display the default user profile picture -->
               <img
                 src="/static/avatar.jpeg"
                 alt="User Profile"
                 class="profile-pic"
               />
+              <!-- Textarea for entering a new comment -->
               <textarea
                 placeholder="Write a comment..."
                 name="commentInput"
                 class="comment-box"
               ></textarea>
+              <!-- Button to submit the comment -->
               <button class="post-btn-icon" type="submit">
                 <i class="fa fa-paper-plane"></i>
                 <!-- Paper plane icon -->

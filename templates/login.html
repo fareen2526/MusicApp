@@ -1,16 +1,26 @@
-{% extends "layout.html" %}
+<!-- 
+     Fareen Alam - Header Comment
+     login.html represents the Login page of the website, prompting the user for their username and password.
+-->
 
-{% block body %}
+{% extends "layout.html" %}  
 
+{% block body %} 
+
+{# Form for user login, submits data to the "/login" route using the POST method #}
 <form action="/login" method="post">
     <div class="mb-3">
+        {# Input field for the username #}
         <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="handler" placeholder="Username" type="text">
     </div>
     <div class="mb-3">
+        {# Input field for the password #}
         <input class="form-control mx-auto w-auto" name="password" placeholder="Password" type="password">
     </div>
+    {# Submit button to log in #}
     <button class="btn btn-primary" type="submit">Log In</button>
 </form>
 
+{# Empty div, possibly for future use or spacing #}
 <div></div>
 {% endblock %}

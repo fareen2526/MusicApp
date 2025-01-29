@@ -1,3 +1,8 @@
+<!-- 
+  Fareen Alam - Header Comment
+  layout.html includes the links of all the necessary CSS pages. It also forms the layout of the navigation bar. 
+-->
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -14,10 +19,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 
-
-
-  <!-- https://favicon.io/emoji-favicons/money-bag/ -->
-
   <!-- ADD THE CSS OF EVERY NEW PAGE THAT IS ADDED -->
   <link href="/static/favicon.ico" rel="icon">
 
@@ -32,58 +33,77 @@
 </head>
 
 <body>
-
+  <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <!-- Check if the user is logged in (session contains "user_id") -->
     {% if session["user_id"] %}
     <div class="container-fluid">
-      <!-- <div class="icon">
-        <img src="../static/avatar.jpeg" alt="Avatar" class="logo-image img-thumbnail"></img>
-      </div> -->
+      <!-- Dropdown for user profile options -->
       <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle icon-button" type="button" style="background-image: url('../static/avatar.jpeg');" data-bs-toggle="dropdown" aria-expanded="false">
-          <!-- The text inside the button can be hidden or replaced by the image -->
+        <!-- Dropdown button with a profile picture as the background -->
+        <button class="btn btn-secondary dropdown-toggle icon-button" type="button"
+          style="background-image: url('../static/avatar.jpeg');" data-bs-toggle="dropdown" aria-expanded="false">
+          <!-- The button text is hidden, and the image acts as the button content -->
         </button>
+        <!-- Dropdown menu with user options -->
         <ul class="dropdown-menu">
+          <!-- Option to change the profile picture -->
           <li><button class="dropdown-item" type="button">Change the Profile Picture</button></li>
-          <li><button class="dropdown-item" type="button">Another action</button></li>
+          <!-- Option to log out, redirecting to the "/logout" route -->
           <li><button class="dropdown-item" type="button"><a href="/logout">Log Out</a></button></li>
         </ul>
       </div>
+
+      <!-- Navbar toggler button for collapsing the navbar on smaller screens -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+      <!-- Collapsible navbar content -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+          <!-- Home link -->
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="/">Home</a>
           </li>
+          <!-- Profile link -->
           <li class="nav-item">
             <a class="nav-link" href="/profile">Profile</a>
           </li>
+          <!-- Friends link -->
           <li class="nav-item">
             <a class="nav-link" href="/friends">Friends</a>
           </li>
+          <!-- Search form to search for profiles -->
           <form action="/search_profile" method="POST">
             <li class="nav-item">
               <div class="input-group">
+                <!-- Input group with an "@" symbol prefix -->
                 <span class="input-group-text" id="basic-addon1">@</span>
-                <input type="text" class="form-control" placeholder="Username" name="username" aria-label="Username" aria-describedby="basic-addon1" required>
+                <!-- Input field for entering a username -->
+                <input type="text" class="form-control" placeholder="Username" name="username" aria-label="Username"
+                  aria-describedby="basic-addon1" required>
               </div>
             </li>
           </form>
         </ul>
       </div>
     </div>
+
+    <!-- If the user is not logged in, show this part of the navbar -->
     {% else %}
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
+        <!-- Home link -->
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
+        <!-- Register link -->
         <li class="nav-item">
           <a class="nav-link" href="/register">Register</a>
         </li>
+        <!-- Login link -->
         <li class="nav-item">
           <a class="nav-link" href="/login">Log In</a>
         </li>
@@ -91,13 +111,14 @@
     </div>
     {% endif %}
   </nav>
+</body>
 
 
-  <main class="container-fluid py-5 text-center">
-    {% block body %}{% endblock %}
-  </main>
+<main class="container-fluid py-5 text-center">
+  {% block body %}{% endblock %}
+</main>
 
-  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
@@ -106,9 +127,11 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+  integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -1,68 +1,55 @@
+<!-- 
+    Fareen Alam - Header Comment
+    friends.html represents the "Friends" Page of the website, where the user's followers and following are displayed. 
+-->
+
 {% extends "layout.html" %}
 
 {% block body %}
 
-<!-- followingUsers is a list -->
+<!-- Main container for the user's following and followers list -->
 <div>
+    <!-- Display the current user's handler (username) -->
     <div>@ {{ user.handler }} </div>
+
+    <!-- Container for the following and followers tables -->
     <div class="container mt-3 mb-4 d-flex justify-content-center align-items-center flex-column text-center">
         <div class="col-lg-12 mt-4 mt-lg-0">
             <div class="row">
+                <!-- Following Users Section -->
                 <div class="col-6">
                     <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm rounded">
+                        <!-- Table to display the list of users the current user is following -->
                         <table class="table manage-candidates-top mb-0">
                             <thead>
                                 <tr>
-                                    <th>Followers</th>
-                                    <!-- <th class="text-center">Status</th> -->
-                                    <!-- <th class="action text-right">Action</th> -->
+                                    <th>Following</th> <!-- Table header -->
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- Loop through the list of users the current user is following -->
                                 {% for f in followingUsers %}
                                 <tr class="candidates-list">
                                     <td class="title">
+                                        <!-- Display the profile picture of the followed user -->
                                         <div class="thumb">
-                                            <img class="img-fluid"
-                                                src="{{ f.PfpUrl }}" alt="">
+                                            <img class="img-fluid" src="{{ f.PfpUrl }}" alt="">
                                         </div>
+                                        <!-- Display the username of the followed user -->
                                         <div class="candidate-list-details">
                                             <div class="candidate-list-info">
                                                 <div class="candidate-list-title">
                                                     <h5 class="mb-0"><a href="#">{{ f.username }}</a></h5>
                                                 </div>
-                                                <!-- <div class="candidate-list-option">
-                                                    <ul class="list-unstyled">
-                                                        <li><i class="fas fa-filter pr-1"></i>Information Technology
-                                                        </li>
-                                                        <li><i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows,
-                                                            IL 60008</li>
-                                                    </ul>
-                                                </div> -->
                                             </div>
                                         </div>
                                     </td>
-                                    <!-- <td class="candidate-list-favourite-time text-center">
-                                        <a class="candidate-list-favourite order-2 text-danger" href="#"><i
-                                                class="fas fa-heart"></i></a>
-                                        <span class="candidate-list-time order-1">Shortlisted</span>
-                                    </td> -->
-                                    <!-- <td>
-                                        <ul class="list-unstyled mb-0 d-flex justify-content-end">
-                                            <li><a href="#" class="text-primary" data-toggle="tooltip" title=""
-                                                    data-original-title="view"><i class="far fa-eye"></i></a></li>
-                                            <li><a href="#" class="text-info" data-toggle="tooltip" title=""
-                                                    data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                            </li>
-                                            <li><a href="#" class="text-danger" data-toggle="tooltip" title=""
-                                                    data-original-title="Delete"><i class="far fa-trash-alt"></i></a>
-                                            </li>
-                                        </ul>
-                                    </td> -->
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+
+                        <!-- Pagination for the following users table -->
                         <div class="text-center mt-3 mt-sm-3">
                             <ul class="pagination justify-content-center mb-0">
                                 <li class="page-item disabled"> <span class="page-link">Prev</span> </li>
@@ -77,61 +64,41 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Followers Section -->
                 <div class="col-6">
                     <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm rounded">
+                        <!-- Table to display the list of users following the current user -->
                         <table class="table manage-candidates-top mb-0">
                             <thead>
                                 <tr>
-                                    <th>Followings</th>
-                                    <!-- <th class="text-center">Status</th> -->
-                                    <!-- <th class="action text-right">Action</th> -->
+                                    <th>Followers</th> <!-- Table header -->
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- Loop through the list of users following the current user -->
                                 {% for f in followerUsers %}
                                 <tr class="candidates-list">
                                     <td class="title">
+                                        <!-- Display the profile picture of the follower -->
                                         <div class="thumb">
-                                            <img class="img-fluid"
-                                                src="{{ f.PfpUrl }}" alt="">
+                                            <img class="img-fluid" src="{{ f.PfpUrl }}" alt="">
                                         </div>
+                                        <!-- Display the username of the follower -->
                                         <div class="candidate-list-details">
                                             <div class="candidate-list-info">
                                                 <div class="candidate-list-title">
                                                     <h5 class="mb-0"><a href="#">{{ f.username }}</a></h5>
                                                 </div>
-                                                <!-- <div class="candidate-list-option">
-                                                    <ul class="list-unstyled">
-                                                        <li><i class="fas fa-filter pr-1"></i>Information Technology
-                                                        </li>
-                                                        <li><i class="fas fa-map-marker-alt pr-1"></i>Rolling Meadows,
-                                                            IL 60008</li>
-                                                    </ul>
-                                                </div> -->
                                             </div>
                                         </div>
                                     </td>
-                                    <!-- <td class="candidate-list-favourite-time text-center">
-                                        <a class="candidate-list-favourite order-2 text-danger" href="#"><i
-                                                class="fas fa-heart"></i></a>
-                                        <span class="candidate-list-time order-1">Shortlisted</span>
-                                    </td> -->
-                                    <!-- <td>
-                                        <ul class="list-unstyled mb-0 d-flex justify-content-end">
-                                            <li><a href="#" class="text-primary" data-toggle="tooltip" title=""
-                                                    data-original-title="view"><i class="far fa-eye"></i></a></li>
-                                            <li><a href="#" class="text-info" data-toggle="tooltip" title=""
-                                                    data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                            </li>
-                                            <li><a href="#" class="text-danger" data-toggle="tooltip" title=""
-                                                    data-original-title="Delete"><i class="far fa-trash-alt"></i></a>
-                                            </li>
-                                        </ul>
-                                    </td> -->
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
+
+                        <!-- Pagination for the followers table -->
                         <div class="text-center mt-3 mt-sm-3">
                             <ul class="pagination justify-content-center mb-0">
                                 <li class="page-item disabled"> <span class="page-link">Prev</span> </li>
@@ -151,4 +118,4 @@
     </div>
 </div>
 
-{% endblock %}
+{% endblock %} <!-- End of the body block -->
