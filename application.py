@@ -26,6 +26,16 @@ Session(application)
 
 db = SQL("sqlite:///social.db")
 
+def embedSongLink(songLink: str):
+    #
+    # position = songLink.find("/track/")
+    # if position != -1:
+    arr = songLink.split("/")
+    songCode = arr[len(arr)-1]
+
+    correctFormat = "https://open.spotify.com/embed/track/" + songCode
+    return correctFormat
+
 
 def time_ago(diff):
     seconds = diff.total_seconds()
@@ -180,7 +190,7 @@ def mainProfile():
 
         # Add the song to DB to get the songID
         songId = db.execute("INSERT INTO Song (songName, songUrl) VALUES (?, ?)",
-                            songName, songLink)
+                            songName, embedSongLink(songLink))
         
         # Insert the new comment into the database
         db.execute(
@@ -199,14 +209,31 @@ def profile(username):
         # Fetch user info based on the username provided in the URL
         user_info = db.execute(
             "SELECT ID, name, email, handler, imageUrl FROM User WHERE handler = ?", username)
+        
+
+
+        
+        
+        
+        
 
         # Check if the user exists
         if not user_info:
             return "User not found", 404
 
+        # Check the user identity
         user_info = user_info[0]  # Assuming 'handler' is unique
         user_id = user_info["ID"]
         image_url = user_info["imageUrl"]
+
+        # Check relationship
+        isFollowing = False
+        my_user_id =  session["user_id"]
+        other_user_id = user_id
+        relationship_arr = db.execute("SELECT * FROM Followers WHERE FollowerID = ? AND FollowingID = ?", my_user_id, other_user_id )
+
+        if len(relationship_arr) > 0:
+            isFollowing = True
 
         if not image_url:
             image_url = "../static/avatar.jpeg"
@@ -218,6 +245,7 @@ def profile(username):
                 Post.ID as postID, 
                 Post.imageUrl as imageUrl, 
                 Post.createdDate as postDate, 
+                Post.title as description,
                 User.ID as userID, 
                 User.handler, 
                 Song.songName, 
@@ -250,6 +278,7 @@ def profile(username):
                     "songName": row["songName"],
                     "songUrl": row["songUrl"],
                     "postDate": row["postDate"],
+                    "description": row["description"],
                     "timeElapse": time_ago(datetime.now(timezone.utc) - datetime.strptime(
                         row["postDate"], '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc))
                 })
@@ -269,7 +298,8 @@ def profile(username):
                     comments_by_post[row["postID"]] = []
                 comments_by_post[row["postID"]].append(comment)
 
-        return render_template("profile.html", current_logged_in_user=current_logged_in_user, user_info=user_info, username=username, image_url=image_url, posts=posts, comments=comments_by_post)
+        print("postssss: ", posts)
+        return render_template("profile.html", current_logged_in_user=current_logged_in_user, user_info=user_info, username=username, image_url=image_url, posts=posts, comments=comments_by_post, isFollowing=isFollowing)
 
 
 @application.route("/likes", methods=["POST"])
@@ -293,9 +323,12 @@ def likeAction():
 def follow():
     user_id_to_follow = request.form.get("user_id_to_follow")
 
+    #first check if already following
+    # if
+    
     # Insert the follow relationship into the database
     try:
-        db.execute("INSERT INTO Followers (ID, FollowingID, FollowerID) VALUES (?, ?, ?)",
+        db.execute("INSERT INTO Followers (ID, FollowerID, FollowingID) VALUES (?, ?, ?)",
                    str(uuid.uuid4()), session["user_id"], user_id_to_follow)
         # flash("You are now following the user!", "success")
     except Exception as e:
@@ -310,13 +343,13 @@ def friendPage():
     if request.method == "GET":
         userInfo = db.execute("SELECT handler FROM User WHERE ID = ?", session["user_id"])
 
-        followingUsers = db.execute(
+        followerUsers= db.execute(
             "SELECT * FROM Followers JOIN Profile ON Followers.FollowerID = Profile.UserID WHERE FollowingID =  ?", session["user_id"])
         # print(followingUsers)
 
-        followerUsers = db.execute(
+        followingUsers = db.execute(
             "SELECT * FROM Followers JOIN Profile ON Followers.FollowingID = Profile.UserID WHERE FollowerID =  ?", session["user_id"])
-        print(followerUsers)
+
     return render_template("friends.html", followingUsers=followingUsers, followerUsers=followerUsers, user=userInfo[0])
 
 # Changing profile picture
@@ -413,6 +446,11 @@ def register():
 def logOut():
     session.clear()
     return redirect('/')
+
+# @application.route("/changePfp", methods=["POST"])
+# def changeThePfp():
+
+
 
 # run the application.
 if __name__ == "__main__":

@@ -10,9 +10,25 @@
 <div>
   <!-- Profile Image Section -->
   <!-- When the button is clicked, it triggers a modal to change the profile picture -->
-  <button type="button" class="btn btn-primary icon-button" style="background-image: url('{{ image_url }}');"
-    data-bs-toggle="modal" data-bs-target="#changeProfilePictureModal">
+  {% if current_logged_in_user[0]["handler"] == username %}
+  <button type="button" class="btn btn-primary editable-icon-button" data-bs-toggle="modal"
+    data-bs-target="#changeProfilePictureModal">
+    <div class="editable-profile-pic">
+      <img src="{{ image_url }}" alt="Profile Picture">
+      <div class="overlay">
+        <i class="fas fa-camera"></i> <!-- FontAwesome camera icon -->
+        <span>Edit</span>
+      </div>
+    </div>
   </button>
+  {% else %}
+  <button type="button" class="btn btn-primary editable-icon-button">
+    <div class="editable-profile-pic">
+      <img src="{{ image_url }}" alt="Profile Picture">
+    </div>
+  </button>
+  {% endif %}
+
 
   <!-- Modal for Changing Profile Picture -->
   <div class="modal fade" id="changeProfilePictureModal" tabindex="-1" aria-labelledby="changeProfilePictureModal"
@@ -101,7 +117,7 @@
   <!-- Form to follow the user -->
   <form action="/follow" method="POST" style="display: inline;">
     <input type="hidden" name="user_id_to_follow" value='{{ user_info["ID"] }}'>
-    <button type="submit" class="btn btn-primary">Follow</button>
+    <button type="submit" class="btn btn-primary"> {% if isFollowing %} Following {% else %} Follow {% endif %}</button>
   </form>
   {% endif %}
 </div>
@@ -127,6 +143,10 @@
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"></iframe>
           </div>
+
+          <!-- Display the post description -->
+          <div> Description: {{ post.description }}</div>
+          <p></p>
 
           <!-- Post Footer with Timestamp -->
           <div class="card-footer text-muted">{{ post.timeElapse }}</div>
